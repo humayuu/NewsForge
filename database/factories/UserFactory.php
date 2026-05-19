@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends Factory<Admin>
+ * @extends Factory<User>
  */
-class AdminFactory extends Factory
+class UserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,11 +19,13 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Admin User',
+            'first_name' => 'Admin',
+            'last_name' => 'User',
             'email' => 'admin@example.com',
+            'email_verified_at' => now(),
+            'gender' => 'male',
             'password' => Hash::make('password'),
             'role' => 'admin',
-            'status' => 'active',
         ];
     }
 }

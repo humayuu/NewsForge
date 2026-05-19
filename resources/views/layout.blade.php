@@ -44,7 +44,6 @@
 
                     <div class="col-md-7 mt-3 mb-3">
                         <div class="d-flex align-items-center justify-content-end gap-3">
-
                             <!-- Nav Links -->
                             <ul class="topbar-link d-flex align-items-center gap-3 list-unstyled mb-0">
                                 <li><a href="#" title="">Career</a></li>
@@ -53,7 +52,7 @@
                                 @if (Auth::check())
                                     <li class="d-flex align-items-center gap-2">
                                         <span class="text-muted small">
-                                            <i class="fa fa-user me-1"></i>{{ Auth::user()->name }}
+                                            <i class="fa fa-user me-1 text-white"></i>{{ Auth::user()->first_name }}
                                         </span>
                                         <form method="POST" action="{{ route('logout') }}" class="mb-0">
                                             @csrf

@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('city')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'author', 'user'])->default('user');
+            $table->string('profile_photo_path')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
             $table->timestamps();
         });
