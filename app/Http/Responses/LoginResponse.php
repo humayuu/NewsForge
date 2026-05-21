@@ -13,7 +13,7 @@ class LoginResponse implements LoginResponseContract
         // Redirect based on role
         $redirectTo = match ($user->role) {
             'admin', 'author' => '/admin/dashboard',
-            default           => '/dashboard',  // regular users
+            default           => '/home',
         };
 
         return redirect()->intended($redirectTo);
