@@ -14,7 +14,7 @@
         <div class="col-xl-7 mx-auto">
             <div class="card border-top border-0 border-4 border-primary">
                 <div class="card-body p-5">
-                    <form class="row g-3" action="{{ route('admin.category.update') }}" method="POST">
+                    <form class="row g-3" action="{{ route('admin.category.update', $category->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="col-md-6">

@@ -12,24 +12,39 @@
     <!--end breadcrumb-->
 
     <div class="card radius-15">
-        <div class="card-body">
-            <div class="table-responsive">
+        <div class="card-body mx-5">
+            <div class="table-responsive ">
                 <table class="table mb-0">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
+                        @forelse ($categories as $category)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $category->category_name }}</td>
+                                <td>
+                                    <a href="{{ route('admin.category.edit', $category->id) }}"
+                                        class="btn btn-sm btn-primary">Edit</a>
+                                    <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-danger mt-5 fs-4 ">No categories found
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Syndash - Bootstrap4 Admin Template</title>
+    <title>NewsForge</title>
     <!--favicon-->
     <link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
     <!-- Vector CSS -->
@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/dark-sidebar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -139,7 +144,7 @@
         <!--End Back To Top Button-->
         <!--footer -->
         <div class="footer">
-            <p class="mb-0">Syndash @2026 | Developed By : <a href="https://github.com/humayuu"
+            <p class="mb-0">NewsForge @2026 | Developed By : <a href="https://github.com/humayuu"
                     target="_blank">Humayun
                     Ahmed</a>
             </p>
@@ -171,6 +176,15 @@
     <script>
         new PerfectScrollbar('.dashboard-social-list');
         new PerfectScrollbar('.dashboard-top-countries');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('.single-select').select2({
+            theme: 'bootstrap4',
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            allowClear: Boolean($(this).data('allow-clear')),
+        });
     </script>
 </body>
 
