@@ -29,44 +29,66 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse ($posts as $post)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>
+                                    <img src="{{ asset('storage/' . $post->image_path) }}" width="60" height="45"
+                                        style="object-fit:cover; border-radius:6px;">
+                                </td>
+                                <td>{{ $post->user->first_name . ' ' . $post->user->last_name }}</td>
+                                <td>
+                                    <span class="badge bg-primary fs-6">{{ $post->category->category_name }}</span>
+                                </td>
+                                <td class="fs-6">{{ $post->title }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $post->status == 'published' ? 'success' : 'secondary' }}">
+                                        <i
+                                            class="fa fa-{{ $post->status == 'published' ? 'globe' : 'box-archive' }} fs-5 me-1"></i>
+                                        {{ Str::upper($post->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if ($post->status === 'published')
+                                        <span class="fw-bold bg-success-subtle text-success  border border-success-subtle">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            {{ $post->published_at->format('d M Y') }}
+                                        </span>
+                                    @else
+                                        <span class="fw-bold bg-warning-subtle text-primary  border border-warning-subtle">
+                                            <i class="bi bi-file-earmark me-1"></i>
+                                            Draft
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a href="#" class="btn btn-sm btn-dark" title="View Post">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-primary" title="Edit Post">
+                                            <i class="fa fa-pen"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-success">
+                                            <i class="fa fa-globe"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-secondary">
+                                            <i class="fa fa-box-archive"></i>
+                                        </a>
+                                        <x-admin.button size="sm" type="danger" message="Are You Sure ?"
+                                            icon="trash" />
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center text-danger mt-5 fs-4">No Posts found</td>
+                            </tr>
+                        @endforelse
 
-                        {{-- Row 1 --}}
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>
-                                <img src="https://placehold.co/60x45" width="60" height="45"
-                                    style="object-fit:cover; border-radius:6px;">
-                            </td>
-                            <td>John Doe</td>
-                            <td>
-                                <span class="badge bg-primary">Technology</span>
-                            </td>
-                            <td>How to Learn Laravel</td>
-                            <td>
-                                <span class="badge bg-success">
-                                    <i class="fa fa-globe me-1"></i> Published
-                                </span>
-                            </td>
-                            <td>20 May 2025</td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <a href="#" class="btn btn-sm btn-primary">
-                                        <i class="fa fa-pen"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm btn-success">
-                                        <i class="fa fa-globe"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm btn-secondary">
-                                        <i class="fa fa-box-archive"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
+                {{ $posts->links() }}
             </div>
         </div>
     </div>

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -13,7 +16,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.posts.index');
+        $posts = Post::with(['category', 'user'])
+            ->latest()
+            ->paginate(5);
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -28,9 +34,33 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+        }
+
+        $isPublish = $request->is_published;
+        if ($isPublish == 1) {
+            $timeStamp = now();
+            $status = 'published';
+        }
+
+        Post::create([
+            'user_id' => Auth::user()->id,
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->content,
+            'image_path' => $imagePath,
+            'is_published' => $request->is_published,
+            'published_at' => $timeStamp ?? null,
+            'status' => $status ?? 'draft',
+
+        ]);
+
+        return redirect()->back();
     }
 
     /**

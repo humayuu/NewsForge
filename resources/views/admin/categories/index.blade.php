@@ -28,14 +28,14 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $category->category_name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.category.edit', $category->id) }}"
-                                        class="btn btn-sm btn-primary">Edit</a>
+                                    <x-admin.anchor route="admin.category.edit" :id="$category->id" size="sm"
+                                        icon="pen" />
                                     <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure?')">Delete</button>
+                                        <x-admin.button size="sm" type="danger" message="Are you Sure?"
+                                            icon="trash" />
                                     </form>
                                 </td>
                             </tr>
@@ -47,6 +47,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                {{ $categories->links() }}
             </div>
         </div>
     </div>

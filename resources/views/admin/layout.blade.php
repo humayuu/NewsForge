@@ -31,7 +31,7 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+    @stack('styles')
 </head>
 
 <body>
@@ -73,7 +73,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('admin.user.index') }}">
                         <div class="parent-icon icon-color-4"><i class="bx bx-group"></i>
                         </div>
                         <div class="menu-title">Users</div>
@@ -154,38 +154,34 @@
     <!-- end wrapper -->
     <!-- JavaScript -->
 
-    <!-- Bootstrap JS -->
+    </div>
+    <!-- end wrapper -->
+
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!--plugins-->
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
-    <!-- Vector map JavaScript -->
+
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-in-mill.js') }}"></script>
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
-    <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-au-mill.js') }}x"></script>
-    <script src="{{ asset('assets/js/index.js') }}"></script>
-    <!-- App JS -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script>
-        new PerfectScrollbar('.dashboard-social-list');
-        new PerfectScrollbar('.dashboard-top-countries');
-    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $('.single-select').select2({
-            theme: 'bootstrap4',
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            allowClear: Boolean($(this).data('allow-clear')),
-        });
-    </script>
+
+    <script src="{{ asset('assets/js/index.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+
+    @stack('scripts')
+
+</body>
+
+</html>
 </body>
 
 </html>
