@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -68,7 +69,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('admin.posts.show', compact('post'));
     }
 
     /**
@@ -76,15 +77,35 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $oldImagePath = $post->image_path;
+        $newImage = null;
+        if ($request->hasFile('image')) {
+            $newImage = $request->file('image')->store('posts', 'public');
+            Storage::disk('public')->delete($oldImagePath);
+        }
+
+        $image = ($newImage) ? $newImage : $oldImagePath;
+
+
+        $post->update([
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->content,
+            'image_path' => $image,
+
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -92,6 +113,37 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $imagePath = $post->image_path;
+        // if (file_exists($imagePath)) {
+        Storage::disk('public')->delete($imagePath);
+        // }
+
+        $post->delete($post);
+        return redirect()->back();
+    }
+
+    /**
+     * For Publish Post
+     */
+    public function postPublish($id)
+    {
+        // $newStatus = $post->status == 'archived' || $post->status == 'draft' ?? 'published';
+        $post = Post::findOrFail($id);
+        $post->update(['status' => 'published']);
+
+        return redirect()->back();
+    }
+
+    /**
+     * For Archived Post
+     */
+    public function postArchived($id)
+    {
+        // $newStatus = $post->status == 'published' || $post->status == 'draft' ?? 'archived';
+
+        $post = Post::findOrFail($id);
+        $post->update(['status' => 'archived']);
+
+        return redirect()->back();
     }
 }
