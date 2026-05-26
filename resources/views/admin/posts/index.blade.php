@@ -55,6 +55,12 @@
                                             <i class="bi bi-check-circle me-1"></i>
                                             {{ $post->published_at->format('d M Y') }}
                                         </span>
+                                    @elseif ($post->status === 'archived')
+                                        <span
+                                            class="fw-bold bg-warning-subtle text-primary fs-6 text-decoration-underline  border border-warning-subtle">
+                                            <i class="bi bi-file-earmark me-1"></i>
+                                            Archived
+                                        </span>
                                     @else
                                         <span
                                             class="fw-bold bg-warning-subtle text-primary fs-6 text-decoration-underline  border border-warning-subtle">
@@ -100,39 +106,37 @@
                                                 </x-admin.anchor>
                                             </li>
 
-                                            {{-- Publish --}}
-                                            <li>
-                                                <form action="{{ route('admin.post.publish', $post->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <x-admin.button plain icon="trash"
-                                                        class="dropdown-item rounded-0 py-2 text-danger w-100 text-start">
-                                                        Publish
-                                                    </x-admin.button>
-                                                </form>
-                                                {{-- <x-admin.anchor plain icon="globe" route="admin.post.publish"
-                                                    :id="$post->id" class="dropdown-item rounded-0 py-2 text-success">
-                                                    Publish
-                                                    <span class="badge bg-success ms-1" style="font-size:9px;">Live</span>
-                                                </x-admin.anchor> --}}
-                                            </li>
+                                            @if ($post->status === 'draft' || $post->status === 'archived')
+                                                {{-- Publish --}}
+                                                <li>
+                                                    <form action="{{ route('admin.post.publish', $post->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <x-admin.button plain icon="globe"
+                                                            class="dropdown-item rounded-0 py-2 text-success w-100 text-start">
+                                                            Publish
+                                                        </x-admin.button>
+                                                    </form>
+                                                </li>
+                                            @endif
 
-                                            {{-- Archive --}}
-                                            <li>
-                                                <form action="{{ route('admin.post.archived', $post->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <x-admin.button plain icon="trash"
-                                                        class="dropdown-item rounded-0 py-2 text-danger w-100 text-start">
-                                                        Archive
-                                                    </x-admin.button>
-                                                </form>
-                                                {{-- <x-admin.anchor plain icon="box-archive" route="admin.post.archived"
-                                                    :id="$post->id" class="dropdown-item rounded-0 py-2 text-secondary">
-                                                    Archive
-                                                </x-admin.anchor> --}}
-                                            </li>
+
+                                            @if ($post->status === 'draft' || $post->status === 'published')
+                                                {{-- Archive --}}
+                                                <li>
+                                                    <form action="{{ route('admin.post.archived', $post->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <x-admin.button plain icon="box-archive"
+                                                            class="dropdown-item rounded-0 py-2 text-secondary w-100 text-start">
+                                                            Archive
+                                                        </x-admin.button>
+                                                    </form>
+                                                </li>
+                                            @endif
+
 
                                             {{-- Divider --}}
                                             <li>

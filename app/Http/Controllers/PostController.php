@@ -49,7 +49,7 @@ class PostController extends Controller
         }
 
         Post::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'category_id' => $request->category_id,
             'title' => $request->title,
             'slug' => Str::slug($request->title),
@@ -114,11 +114,11 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $imagePath = $post->image_path;
-        // if (file_exists($imagePath)) {
-        Storage::disk('public')->delete($imagePath);
-        // }
+        if ($imagePath) {
+            Storage::disk('public')->delete($imagePath);
+        }
 
-        $post->delete($post);
+        $post->delete();
         return redirect()->back();
     }
 
@@ -127,9 +127,9 @@ class PostController extends Controller
      */
     public function postPublish($id)
     {
-        // $newStatus = $post->status == 'archived' || $post->status == 'draft' ?? 'published';
         $post = Post::findOrFail($id);
-        $post->update(['status' => 'published']);
+        $newStatus = $post->status == 'archived' || $post->status == 'draft' ? 'published' : $post->status;
+        $post->update(['status' => $newStatus]);
 
         return redirect()->back();
     }
@@ -139,10 +139,10 @@ class PostController extends Controller
      */
     public function postArchived($id)
     {
-        // $newStatus = $post->status == 'published' || $post->status == 'draft' ?? 'archived';
 
         $post = Post::findOrFail($id);
-        $post->update(['status' => 'archived']);
+        $newStatus = $post->status == 'published' || $post->status == 'draft' ? 'archived' : $post->status;
+        $post->update(['status' => $newStatus]);
 
         return redirect()->back();
     }

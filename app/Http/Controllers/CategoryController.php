@@ -37,6 +37,7 @@ class CategoryController extends Controller
         Category::create([
             'category_name' => $request->category_name,
             'slug' => $createSlug,
+            'description' => $request->description,
         ]);
 
         return redirect()->back()->with('message', 'Category Created Successfully');
@@ -60,6 +61,7 @@ class CategoryController extends Controller
         $category->update([
             'category_name' => $request->category_name,
             'slug' => $createSlug,
+            'description' => $request->description
         ]);
 
         return redirect()->back()->with('message', 'Category Updated Successfully');

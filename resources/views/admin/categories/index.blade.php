@@ -1,15 +1,9 @@
 @extends('admin.layout')
 @section('main')
-    <!--breadcrumb-->
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3 fs-3">Category</div>
-        <div class="ms-auto">
-            <div class="btn-group">
-                <a href="{{ route('admin.category.create') }}" class="btn btn-primary">Create Category</a>
-            </div>
-        </div>
-    </div>
-    <!--end breadcrumb-->
+    {{-- Breadcrumb --}}
+    <x-admin.breadcrumb title="Category" shortDescription="All Category" route="admin.category.create" type="primary"
+        message="Create Category" icon="plus" />
+
 
     <div class="card radius-15">
         <div class="card-body mx-5">
@@ -19,6 +13,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Slug</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -27,16 +22,14 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $category->category_name }}</td>
-                                <td>
+                                <td>{{ $category->slug }}</td>
+                                <td class="d-flex gap-2">
                                     <x-admin.anchor route="admin.category.edit" :id="$category->id" size="sm"
                                         icon="pen" />
-                                    <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
+                                    <x-admin.form route="admin.category.destroy" :id="$category->id" method="DELETE">
                                         <x-admin.button size="sm" type="danger" message="Are you Sure?"
                                             icon="trash" />
-                                    </form>
+                                    </x-admin.form>
                                 </td>
                             </tr>
                         @empty
