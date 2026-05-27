@@ -23,7 +23,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $category->category_name }}</td>
                                 <td>{{ $category->slug }}</td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-3">
                                     <x-admin.anchor route="admin.category.edit" :id="$category->id" size="sm"
                                         icon="pen" />
                                     <x-admin.form route="admin.category.destroy" :id="$category->id" method="DELETE">

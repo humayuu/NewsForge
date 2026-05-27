@@ -1,25 +1,12 @@
 @extends('admin.layout')
 
 @section('main')
-    <!-- Breadcrumb -->
-    <div class="page-breadcrumb d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-4">
-        <div>
-            <h3 class="fw-bold text-primary mb-1">Create Post</h3>
-            <p class="text-muted mb-0">Add a new blog post.</p>
-        </div>
+    {{-- Breadcrumb --}}
+    <x-admin.breadcrumb title="Create Post" shortDescription="Add a new blog post." route="admin.post.index"
+        icon="arrow-left me-1" message="Back to Post" />
 
-        <div class="mt-3 mt-sm-0">
-            <a href="{{ route('admin.post.index') }}" class="btn btn-outline-primary rounded-3">
-                <i class="fa fa-arrow-left me-1"></i> Back Posts
-            </a>
-        </div>
-    </div>
-
-    <form action="{{ route('admin.post.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
+    <x-admin.form route="admin.post.store" method="POST" encType="multipart/form-data">
         <div class="row g-4">
-
             <!-- LEFT PORTION -->
             <div class="col-lg-5">
                 <div class="card border-0 shadow-sm rounded-4 h-100">
@@ -138,7 +125,7 @@
             </div>
 
         </div>
-    </form>
+    </x-admin.form>
 @endsection
 
 @push('styles')
@@ -169,9 +156,9 @@
                 'insertdatetime', 'table', 'wordcount'
             ],
             toolbar: 'undo redo | formatselect | bold italic underline | \
-                                  alignleft aligncenter alignright alignjustify | \
-                                  bullist numlist outdent indent | link | \
-                                  preview fullscreen code',
+                                                                  alignleft aligncenter alignright alignjustify | \
+                                                                  bullist numlist outdent indent | link | \
+                                                                  preview fullscreen code',
             content_style: `
             body {
                 font-family: Arial, sans-serif;

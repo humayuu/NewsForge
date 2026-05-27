@@ -2,8 +2,8 @@
 
 @section('main')
     {{-- Breadcrumb --}}
-    <x-breadcrumb title="Edit Category" shortDescription="Edit category for organizing posts." route="admin.category.index"
-        type="primary" message="Back to Category" icon="arrow-left me-1" />
+    <x-admin.breadcrumb title="Edit Category" shortDescription="Edit category for organizing posts."
+        route="admin.category.index" type="primary" message="Back to Category" icon="arrow-left me-1" />
 
     <!-- Form Section -->
     <div class="row justify-content-center">
@@ -16,9 +16,7 @@
                         <p class="text-muted small mb-0">Enter the category information below.</p>
                     </div>
 
-                    <form class="row g-4" action="{{ route('admin.category.update', $category->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <x-admin.form route="admin.category.update" :id="$category->id" method="PUT">
 
                         <!-- Category Name -->
                         <div class="col-6">
@@ -69,7 +67,7 @@
                             </div>
                         </div>
 
-                    </form>
+                    </x-admin.form>
 
                 </div>
             </div>

@@ -1,16 +1,8 @@
 @extends('admin.layout')
-
 @section('main')
-    <!--breadcrumb-->
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3 fs-3">Posts</div>
-        <div class="ms-auto">
-            <a href="{{ route('admin.post.create') }}" class="btn btn-primary">
-                <i class="fa fa-plus me-1"></i> Create Post
-            </a>
-        </div>
-    </div>
-    <!--end breadcrumb-->
+    {{-- Breadcrumb --}}
+    <x-admin.breadcrumb title="Posts" shortDescription="All Posts" route="admin.post.create" icon="plus"
+        message="Create Post" />
 
     <div class="card radius-15">
         <div class="card-body mx-5">
@@ -109,15 +101,13 @@
                                             @if ($post->status === 'draft' || $post->status === 'archived')
                                                 {{-- Publish --}}
                                                 <li>
-                                                    <form action="{{ route('admin.post.publish', $post->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('PUT')
+                                                    <x-admin.form route="admin.post.publish" :id="$post->id"
+                                                        method="PUT">
                                                         <x-admin.button plain icon="globe"
                                                             class="dropdown-item rounded-0 py-2 text-success w-100 text-start">
                                                             Publish
                                                         </x-admin.button>
-                                                    </form>
+                                                    </x-admin.form>
                                                 </li>
                                             @endif
 
@@ -125,15 +115,13 @@
                                             @if ($post->status === 'draft' || $post->status === 'published')
                                                 {{-- Archive --}}
                                                 <li>
-                                                    <form action="{{ route('admin.post.archived', $post->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('PUT')
+                                                    <x-admin.form route="admin.post.archived" :id="$post->id"
+                                                        method="PUT">
                                                         <x-admin.button plain icon="box-archive"
                                                             class="dropdown-item rounded-0 py-2 text-secondary w-100 text-start">
                                                             Archive
                                                         </x-admin.button>
-                                                    </form>
+                                                    </x-admin.form>
                                                 </li>
                                             @endif
 
@@ -145,14 +133,13 @@
 
                                             {{-- Delete --}}
                                             <li>
-                                                <form action="{{ route('admin.post.destroy', $post->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
+                                                <x-admin.form route="admin.post.destroy" :id="$post->id" method="DELETE">
                                                     <x-admin.button plain message="Are You Sure?" icon="trash"
                                                         class="dropdown-item rounded-0 py-2 text-danger w-100 text-start">
                                                         Delete Post
                                                     </x-admin.button>
-                                                </form>
+                                                    </form>
+                                                </x-admin.form>
                                             </li>
 
                                         </ul>

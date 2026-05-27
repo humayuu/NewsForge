@@ -2,17 +2,7 @@
 
 @section('main')
     {{-- Breadcrumb --}}
-    <div class="page-breadcrumb d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-4">
-        <div>
-            <h3 class="fw-bold text-primary mb-1">Post Detail</h3>
-        </div>
-        <div class="mt-3 mt-sm-0">
-            <x-admin.anchor route="admin.post.index" type="outline-primary rounded-3" icon="arrow-left me-1"
-                title="Back to Posts">
-                Back to Posts
-            </x-admin.anchor>
-        </div>
-    </div>
+    <x-admin.breadcrumb title="Post Detail" route="admin.post.index" icon="arrow-left me-1" message="Back to Post" />
 
     {{-- Post Detail Card --}}
     <div class="row g-4">

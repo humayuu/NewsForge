@@ -1,6 +1,6 @@
-@props(['route', 'id' => null, 'method' => 'POST'])
+@props(['route', 'id' => null, 'method' => 'POST', 'class' => null, 'encType' => null])
 
-<form action="{{ route($route, $id) }}" method="POST">
+<form class="{{ $class }}" action="{{ route($route, $id) }}" method="POST" enctype="{{ $encType }}">
     @csrf
 
     @if ($method !== 'POST')

@@ -16,7 +16,7 @@
                         <p class="text-muted small mb-0">Enter the category information below.</p>
                     </div>
 
-                    <x-admin.form route="admin.category.store" method="POST">
+                    <x-admin.form class="row g-4" route="admin.category.store" method="POST">
                         <!-- Category Name -->
                         <div class="col-6">
                             <label for="category_name" class="form-label fw-semibold">

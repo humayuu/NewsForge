@@ -2,9 +2,10 @@
 
 @section('main')
     {{-- Breadcrumb --}}
-    <x-admin.breadcrumb title="Edit User" route="admin.user.index" icon="arrow-left me-1" message="Back to Users" />
+    <x-admin.breadcrumb title="Create User" shortDescription="Add a new author or admin." route="admin.user.index"
+        icon="arrow-left me-1" message="Back to Users" />
 
-    <x-admin.form route="admin.user.update" :id="$user->id" method="PUT" encType="multipart/form-data">
+    <x-admin.form route="admin.user.store" method="POST" encType="multipart/form-data">
         <div class="row g-4">
 
             <!-- LEFT PORTION -->
@@ -14,7 +15,7 @@
 
                         <div class="mb-4">
                             <h5 class="fw-bold mb-1">User Details</h5>
-                            <p class="text-muted small mb-0">Edit user fullname, email, password and gender.</p>
+                            <p class="text-muted small mb-0">Add user fullname, email, password and gender.</p>
                         </div>
 
                         <!-- First Name -->
@@ -23,7 +24,7 @@
                                 First Name <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control rounded-3 @error('first_name') is-invalid @enderror"
-                                id="first_name" name="first_name" value="{{ old('first_name', $user->first_name) }}"
+                                id="first_name" name="first_name" value="{{ old('first_name') }}"
                                 placeholder="Enter first name" autofocus>
                             @error('first_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -36,7 +37,7 @@
                                 Last Name <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control rounded-3 @error('last_name') is-invalid @enderror"
-                                id="last_name" name="last_name" value="{{ old('last_name', $user->last_name) }}"
+                                id="last_name" name="last_name" value="{{ old('last_name') }}"
                                 placeholder="Enter last name">
                             @error('last_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -49,11 +50,31 @@
                                 Email <span class="text-danger">*</span>
                             </label>
                             <input type="email" class="form-control rounded-3 @error('email') is-invalid @enderror"
-                                id="email" name="email" value="{{ old('email', $user->email) }}"
-                                placeholder="Enter email">
+                                id="email" name="email" value="{{ old('email') }}" placeholder="Enter email">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold">
+                                Password <span class="text-danger">*</span>
+                            </label>
+                            <input type="password" class="form-control rounded-3 @error('password') is-invalid @enderror"
+                                id="password" name="password" placeholder="Enter password">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Password Confirmation -->
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="form-label fw-semibold">
+                                Confirm Password <span class="text-danger">*</span>
+                            </label>
+                            <input type="password" class="form-control rounded-3" id="password_confirmation"
+                                name="password_confirmation" placeholder="Confirm password">
                         </div>
 
                         <!-- Gender -->
@@ -64,10 +85,8 @@
                             <select class="form-select select2 @error('gender') is-invalid @enderror" id="gender"
                                 name="gender">
                                 <option selected disabled value="">Select Gender</option>
-                                <option value="male" {{ old('gender', $user->gender) == 'male' ? 'selected' : '' }}>Male
-                                </option>
-                                <option value="female" {{ old('gender', $user->gender) == 'female' ? 'selected' : '' }}>
-                                    Female</option>
+                                <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
                             </select>
                             @error('gender')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -85,7 +104,7 @@
 
                         <div class="mb-4">
                             <h5 class="fw-bold mb-1">Avatar & Other Details</h5>
-                            <p class="text-muted small mb-0">Edit avatar, country, city, role and status.</p>
+                            <p class="text-muted small mb-0">Add avatar, country, city, role and status.</p>
                         </div>
 
                         <!-- Avatar -->
@@ -98,21 +117,13 @@
                             @error('profile_photo_path')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            @php
-                                $avatar = $user->profile_photo_path
-                                    ? asset('storage/' . $user->profile_photo_path)
-                                    : asset('Default_avatar.png');
-                            @endphp
-                            <img src="{{ $avatar }}" width="100" height="90"
-                                style="object-fit:cover; border-radius:6px;" alt="Current Avatar">
                         </div>
 
                         <!-- Country -->
                         <div class="mb-4">
                             <label for="country" class="form-label fw-semibold">Country</label>
                             <input type="text" class="form-control rounded-3 @error('country') is-invalid @enderror"
-                                id="country" name="country" value="{{ old('country', $user->country) }}"
-                                placeholder="Enter country">
+                                id="country" name="country" value="{{ old('country') }}" placeholder="Enter country">
                             @error('country')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -122,8 +133,7 @@
                         <div class="mb-4">
                             <label for="city" class="form-label fw-semibold">City</label>
                             <input type="text" class="form-control rounded-3 @error('city') is-invalid @enderror"
-                                id="city" name="city" value="{{ old('city', $user->city) }}"
-                                placeholder="Enter city">
+                                id="city" name="city" value="{{ old('city') }}" placeholder="Enter city">
                             @error('city')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -137,20 +147,38 @@
                             <select class="form-select select2 @error('role') is-invalid @enderror" id="role"
                                 name="role">
                                 <option selected disabled value="">Select Role</option>
-                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin
-                                </option>
-                                <option value="author" {{ old('role', $user->role) == 'author' ? 'selected' : '' }}>Author
-                                </option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="author" {{ old('role') == 'author' ? 'selected' : '' }}>Author</option>
                             </select>
                             @error('role')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        <!-- Status -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold d-block mb-2">Status</label>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" id="status_active"
+                                        value="active" {{ old('status', 'active') == 'active' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="status_active">Active</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" id="status_inactive"
+                                        value="inactive" {{ old('status') == 'inactive' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="status_inactive">Inactive</label>
+                                </div>
+                            </div>
+                            @error('status')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!-- Buttons -->
                         <div class="d-flex flex-wrap gap-2 pt-2">
                             <button type="submit" class="btn btn-primary px-4 rounded-3">
-                                <i class="fa fa-save me-1"></i> Update User
+                                <i class="fa fa-plus-circle me-1"></i> Create User
                             </button>
                             <a href="{{ route('admin.user.index') }}" class="btn btn-light border px-4 rounded-3">
                                 Cancel
