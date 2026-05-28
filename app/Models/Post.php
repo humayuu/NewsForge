@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable('user_id', 'category_id', 'title', 'slug', 'content', 'image_path', 'is_published', 'published_at', 'status')]
+#[Fillable('user_id', 'category_id', 'title', 'slug', 'content', 'description', 'image_path', 'is_published', 'published_at', 'status')]
 class Post extends Model
 {
 

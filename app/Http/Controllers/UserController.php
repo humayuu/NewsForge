@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::whereIn('role', ['admin', 'author'])
-            ->where('id', '!=', '1')
+            ->where('id', '!=', 1)
             ->latest('id')
             ->paginate(5);
 
@@ -105,11 +105,14 @@ class UserController extends Controller
     /**
      * For Update User status
      */
-    public function userStatus($id)
+    public function userStatus(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $newStatus = $user->status === 'active' ? 'inactive' : 'active';
         $user->update(['status' => $newStatus]);
+        if ($newStatus === 'inactive') {
+            $request->session()->regenerate();
+        }
         return redirect()->back();
     }
 }

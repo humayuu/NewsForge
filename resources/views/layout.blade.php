@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>NewsForge &#8211; Best news, blog & magazine template </title>
+    <title>NewsForge</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
